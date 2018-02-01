@@ -1,0 +1,64 @@
+.about-sector {
+    position: absolute;
+    bottom: 30px;
+    width: 100%;
+}
+
+.youtube-player {
+    width: 80%;
+    height:300px;
+    margin-left: 10%;
+    border: none;
+    background : RGB(0,0,0);
+}
+
+.panel-title {
+    text-align: center;
+}
+
+.table-header {
+    background-color: lightgreen;
+}
+
+.dispute-button {
+    background-color: red;
+}
+
+.bread-filter {
+    float: left !important;
+}
+.td-month {
+    width: 30%;
+}
+.td-money {
+    width: 30%;
+}
+h6.note {
+    color: red !important;
+}
+h6.details {
+    color: blue !important;
+}
+/*.filter-control {
+    border-width: 0px !important;
+    width: 200px !important;
+}*/
+.modal-content {
+    text-align: center !important;
+}
+
+h5.filter-control {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+}
+.filter-control {
+    margin-bottom : 20px;
+}
+
+input.modal-control {
+    border-width: 0px !important;
+    background-color: white !important;
+}
+.control-label {
+    text-align: right !important;
+}

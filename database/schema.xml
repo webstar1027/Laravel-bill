@@ -1,0 +1,1289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<database name="default" defaultIdMethod="native" defaultPhpNamingMethod="underscore">
+  <table name="advertiser" idMethod="native" phpName="Advertiser">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="client" name="advertiser_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <index name="advertiser_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <unique name="IX_UQ_advertiser_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="bucket" idMethod="native" phpName="Bucket">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="128" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <column name="ecpmoptimize" phpName="Ecpmoptimize" type="BOOLEAN" size="1" defaultValue="false"/>
+    <column name="sendoutlockdown" phpName="Sendoutlockdown" type="BOOLEAN" size="1" defaultValue="false"/>
+    <column name="media_id" phpName="MediaId" type="INTEGER" required="true"/>
+    <column name="format_id" phpName="FormatId" type="INTEGER" required="true"/>
+    <column name="sparklinedata" phpName="Sparklinedata" type="VARCHAR" size="1024" defaultValue="0"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="media" name="bucket_fk_32dfd1">
+      <reference local="media_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="format" name="bucket_fk_558027">
+      <reference local="format_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="client" name="bucket_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <index name="bucket_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <index name="bucket_fi_32dfd1">
+      <index-column name="media_id"/>
+    </index>
+    <index name="bucket_fi_558027">
+      <index-column name="format_id"/>
+    </index>
+    <unique name="IX_UQ_bucket_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="bucketHascampaign" idMethod="native" phpName="Buckethascampaign">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <column name="creative_id" phpName="CreativeId" type="INTEGER"/>
+    <column name="startdate" phpName="Startdate" type="TIMESTAMP"/>
+    <column name="enddate" phpName="Enddate" type="TIMESTAMP"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <column name="priority" phpName="Priority" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="pixelcount" phpName="Pixelcount" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="views" phpName="Views" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="volume" phpName="Volume" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="clickvolume" phpName="Clickvolume" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="pixelvolume" phpName="Pixelvolume" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="ecpm" phpName="Ecpm" type="FLOAT" required="true" defaultValue="0"/>
+    <foreign-key foreignTable="creative" name="bucketHascampaign_fk_81033e">
+      <reference local="creative_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="bucket" name="bucketHascampaign_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="bucketHascampaign_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="bucketHascampaign_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <index name="bucketHascampaign_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <index name="bucketHascampaign_fi_81033e">
+      <index-column name="creative_id"/>
+    </index>
+    <unique name="IX_UQ_bucketHascampaign_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="campaign" idMethod="native" phpName="Campaign">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="128" required="true"/>
+    <column name="active" phpName="Active" type="BOOLEAN" size="1" defaultValue="true"/>
+    <column name="imageurl" phpName="Imageurl" type="VARCHAR" size="2048" required="true"/>
+    <column name="clickurl" phpName="Clickurl" type="VARCHAR" size="2048" required="true"/>
+    <column name="exttrackingpixel" phpName="Exttrackingpixel" type="VARCHAR" size="2048"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixelcount" phpName="Pixelcount" type="INTEGER" defaultValue="0"/>
+    <column name="mappingid" phpName="Mappingid" type="INTEGER"/>
+    <column name="skipped" phpName="Skipped" type="INTEGER"/>
+    <column name="prefillemail" phpName="Prefillemail" type="BOOLEAN" size="1" defaultValue="true"/>
+    <column name="hasoffers_id" phpName="HasoffersId" type="INTEGER"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <column name="volume" phpName="Volume" type="INTEGER" defaultValue="0"/>
+    <column name="clickvolume" phpName="Clickvolume" type="INTEGER" defaultValue="0"/>
+    <column name="pixelvolume" phpName="Pixelvolume" type="INTEGER" defaultValue="0"/>
+    <column name="frequency" phpName="Frequency" type="INTEGER" defaultValue="1"/>
+    <column name="ecpm" phpName="Ecpm" type="FLOAT"/>
+    <column name="startdate" phpName="Startdate" type="TIMESTAMP"/>
+    <column name="enddate" phpName="Enddate" type="TIMESTAMP"/>
+    <column name="cpm" phpName="Cpm" type="FLOAT" defaultValue="0"/>
+    <column name="cpc" phpName="Cpc" type="FLOAT" defaultValue="0"/>
+    <column name="shared" phpName="Shared" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="autoEcpmUpdates" phpName="Autoecpmupdates" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="sparklinedata" phpName="Sparklinedata" type="VARCHAR" size="1024" defaultValue="0"/>
+    <column name="advertiser_id" phpName="AdvertiserId" type="INTEGER" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="client" name="campaign_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="advertiser" name="campaign_fk_d78542">
+      <reference local="advertiser_id" foreign="id"/>
+    </foreign-key>
+    <index name="campaign_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <index name="campaign_fi_d78542">
+      <index-column name="advertiser_id"/>
+    </index>
+    <unique name="IX_UQ_campaign_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="campaignHascity" idMethod="native" phpName="Campaignhascity">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="city_id" phpName="CityId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="city" name="campaignHascity_fk_48ce03">
+      <reference local="city_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="campaignHascity_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="campaignHascity_fi_48ce03">
+      <index-column name="city_id"/>
+    </index>
+    <index name="campaignHascity_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_campaignHascity_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="campaignHasdevice" idMethod="native" phpName="Campaignhasdevice">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="device_id" phpName="DeviceId" type="INTEGER" primaryKey="true" required="true"/>
+    <foreign-key foreignTable="device" name="campaignHasdevice_fk_14462a">
+      <reference local="device_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="campaignHasdevice_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="campaignHasdevice_fi_14462a">
+      <index-column name="device_id"/>
+    </index>
+    <index name="campaignHasdevice_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_campaignHasdevice_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="campaignHasextDupeList" idMethod="native" phpName="Campaignhasextdupelist">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <column name="ext_dupe_list_id" phpName="ExtDupeListId" type="INTEGER" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="campaign" name="campaignHasextDupeList_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="campaignHasextDupeList_fi_eb37d6">
+      <index-column name="ext_dupe_list_id"/>
+    </index>
+    <index name="campaignHasextDupeList_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_campaignHasextDupeList_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="city" idMethod="native" phpName="City">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="32"/>
+    <column name="country_id" phpName="CountryId" type="INTEGER" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="country" name="city_fk_6a2e9f">
+      <reference local="country_id" foreign="id"/>
+    </foreign-key>
+    <index name="city_fi_6a2e9f">
+      <index-column name="country_id"/>
+    </index>
+    <unique name="IX_UQ_city_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="client" idMethod="native" phpName="Client">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="128"/>
+    <column name="login" phpName="Login" type="VARCHAR" size="128"/>
+    <column name="password" phpName="Password" type="VARCHAR" size="64"/>
+    <column name="contactemail" phpName="Contactemail" type="VARCHAR" size="256"/>
+    <column name="contactname" phpName="Contactname" type="VARCHAR" size="128"/>
+    <column name="contacttelephone" phpName="Contacttelephone" type="VARCHAR" size="64"/>
+    <column name="fee" phpName="Fee" type="INTEGER" required="true" defaultValue="20"/>
+    <column name="exchangeEnabled" phpName="Exchangeenabled" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="defaultOfferId" phpName="Defaultofferid" type="INTEGER"/>
+    <column name="remember_token" phpName="RememberToken" type="VARCHAR" size="200" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <unique name="IX_UQ_client_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="clientExchangeMapping" idMethod="native" phpName="Clientexchangemapping">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="sharer_client_id" phpName="SharerClientId" type="INTEGER" required="true"/>
+    <column name="sharee_client_id" phpName="ShareeClientId" type="INTEGER" required="true"/>
+    <column name="accepted" phpName="Accepted" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="client" name="clientExchangeMapping_fk_7b9614">
+      <reference local="sharer_client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="client" name="clientExchangeMapping_fk_8257ec">
+      <reference local="sharee_client_id" foreign="id"/>
+    </foreign-key>
+    <index name="clientExchangeMapping_fi_7b9614">
+      <index-column name="sharer_client_id"/>
+    </index>
+    <index name="clientExchangeMapping_fi_8257ec">
+      <index-column name="sharee_client_id"/>
+    </index>
+    <unique name="IX_UQ_clientExchangeMapping_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="country" idMethod="native" phpName="Country">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="32"/>
+    <column name="cc" phpName="Cc" type="VARCHAR" size="2"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <unique name="IX_UQ_country_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="creative" idMethod="native" phpName="Creative">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="128" required="true"/>
+    <column name="format_id" phpName="FormatId" type="INTEGER" required="true"/>
+    <column name="imageurl" phpName="Imageurl" type="VARCHAR" size="2048"/>
+    <column name="clickurl" phpName="Clickurl" type="VARCHAR" size="2048"/>
+    <column name="imageData" phpName="Imagedata" type="LONGVARBINARY"/>
+    <column name="mimetype" phpName="Mimetype" type="VARCHAR" size="32"/>
+    <column name="useImageDataforCreative" phpName="Useimagedataforcreative" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="format" name="creative_fk_558027">
+      <reference local="format_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="client" name="creative_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="creative_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="creative_fi_558027">
+      <index-column name="format_id"/>
+    </index>
+    <index name="creative_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <index name="creative_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <unique name="IX_UQ_creative_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="device" idMethod="native" phpName="Device">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="16"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <unique name="IX_UQ_device_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="eventlog" idMethod="native" phpName="Eventlog">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <column name="media_id" phpName="MediaId" type="INTEGER" required="true"/>
+    <column name="creative_id" phpName="CreativeId" type="INTEGER"/>
+    <column name="sendout_id" phpName="SendoutId" type="INTEGER" required="true"/>
+    <column name="requesttype" phpName="Requesttype" type="VARCHAR" size="16" required="true"/>
+    <column name="device_id" phpName="DeviceId" type="INTEGER" required="true"/>
+    <column name="city_id" phpName="CityId" type="INTEGER" required="true"/>
+    <column name="country_id" phpName="CountryId" type="INTEGER" required="true"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <column name="value" phpName="Value" type="FLOAT" required="true" defaultValue="0"/>
+    <column name="fee" phpName="Fee" type="FLOAT" required="true" defaultValue="0"/>
+    <column name="pixel_id" phpName="PixelId" type="INTEGER"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="pixel" name="eventlog_fk_089dfc">
+      <reference local="pixel_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="device" name="eventlog_fk_14462a">
+      <reference local="device_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="user" name="eventlog_fk_29554a">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="media" name="eventlog_fk_32dfd1">
+      <reference local="media_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="city" name="eventlog_fk_48ce03">
+      <reference local="city_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="country" name="eventlog_fk_6a2e9f">
+      <reference local="country_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="creative" name="eventlog_fk_81033e">
+      <reference local="creative_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="client" name="eventlog_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="bucket" name="eventlog_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="sendout" name="eventlog_fk_f68af5">
+      <reference local="sendout_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="eventlog_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="eventlog_fi_29554a">
+      <index-column name="user_id"/>
+    </index>
+    <index name="eventlog_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <index name="eventlog_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <index name="eventlog_fi_32dfd1">
+      <index-column name="media_id"/>
+    </index>
+    <index name="eventlog_fi_81033e">
+      <index-column name="creative_id"/>
+    </index>
+    <index name="eventlog_fi_f68af5">
+      <index-column name="sendout_id"/>
+    </index>
+    <index name="eventlog_fi_14462a">
+      <index-column name="device_id"/>
+    </index>
+    <index name="eventlog_fi_48ce03">
+      <index-column name="city_id"/>
+    </index>
+    <index name="eventlog_fi_6a2e9f">
+      <index-column name="country_id"/>
+    </index>
+    <index name="eventlog_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <index name="eventlog_fi_089dfc">
+      <index-column name="pixel_id"/>
+    </index>
+    <index name="aj_evt_log_idx">
+      <index-column name="created_at"/>
+    </index>
+    <unique name="IX_UQ_eventlog_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="extDupe" idMethod="native" phpName="Extdupe">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="emailSha256" phpName="Emailsha256" type="VARCHAR" size="64" primaryKey="true" required="true"/>
+    <column name="ext_dupe_list_id" phpName="ExtDupeListId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="256"/>
+    <column name="missed" phpName="Missed" type="INTEGER" defaultValue="0"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <index name="extDupe_fi_eb37d6">
+      <index-column name="ext_dupe_list_id"/>
+    </index>
+    <index name="extDupe_i_0bbc02">
+      <index-column name="ext_dupe_list_id"/>
+    </index>
+    <index name="extDupe_i_565db4">
+      <index-column name="emailSha256"/>
+      <index-column name="ext_dupe_list_id"/>
+    </index>
+    <unique name="IX_UQ_extDupe_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="extDupeList" idMethod="native" phpName="Extdupelist">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="32"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="client" name="extDupeList_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <index name="extDupeList_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <unique name="IX_UQ_extDupeList_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="externalCampaignMapping" idMethod="native" phpName="Externalcampaignmapping">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="externalProvider" phpName="Externalprovider" type="VARCHAR" size="32" required="true"/>
+    <column name="externalCampaignId" phpName="Externalcampaignid" type="VARCHAR" size="64" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <column name="externalSubscriptionId" phpName="Externalsubscriptionid" type="VARCHAR" size="32"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="client" name="externalCampaignMapping_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="externalCampaignMapping_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="externalCampaignMapping_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <index name="externalCampaignMapping_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <unique name="IX_UQ_externalCampaignMapping_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="externalCreativeMapping" idMethod="native" phpName="Externalcreativemapping">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="external_campaign_mapping_id" phpName="ExternalCampaignMappingId" type="INTEGER" required="true"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <column name="creative_id" phpName="CreativeId" type="INTEGER" required="true"/>
+    <column name="externalCreativeId" phpName="Externalcreativeid" type="VARCHAR" size="32"/>
+    <column name="externalSubscriptionId" phpName="Externalsubscriptionid" type="VARCHAR" size="32"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="creative" name="externalCreativeMapping_fk_81033e">
+      <reference local="creative_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="client" name="externalCreativeMapping_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <index name="externalCreativeMapping_fi_3fbb82">
+      <index-column name="external_campaign_mapping_id"/>
+    </index>
+    <index name="externalCreativeMapping_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <index name="externalCreativeMapping_fi_81033e">
+      <index-column name="creative_id"/>
+    </index>
+    <unique name="IX_UQ_externalCreativeMapping_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="format" idMethod="native" phpName="Format">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="128" required="true"/>
+    <unique name="IX_UQ_format_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="media" idMethod="native" phpName="Media">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="64" required="true"/>
+    <column name="affiliateid" phpName="Affiliateid" type="VARCHAR" size="4"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="client" name="media_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <index name="media_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <unique name="IX_UQ_media_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odAccount" idMethod="native" phpName="Odaccount">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="BuyerId" phpName="Buyerid" type="INTEGER" required="true"/>
+    <column name="AdvertiserId" phpName="Advertiserid" type="VARCHAR" size="36" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="36" required="true"/>
+    <column name="ProviderData" phpName="Providerdata" type="LONGVARBINARY"/>
+    <column name="od_partner_id" phpName="OdPartnerId" type="INTEGER" required="true"/>
+    <index name="odAccount_fi_1c2831">
+      <index-column name="od_partner_id"/>
+    </index>
+    <unique name="IX_UQ_odAccount_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odAdFormatType" idMethod="native" phpName="Odadformattype">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="128" required="true"/>
+    <unique name="IX_UQ_odAdFormatType_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odAdPosition" idMethod="native" phpName="Odadposition">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="128" required="true"/>
+    <unique name="IX_UQ_odAdPosition_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odAddress" idMethod="native" phpName="Odaddress">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="City" phpName="City" type="VARCHAR" size="35" required="true"/>
+    <column name="Country" phpName="Country" type="INTEGER"/>
+    <column name="AddressLine1" phpName="Addressline1" type="VARCHAR" size="255" required="true"/>
+    <column name="AddressLine2" phpName="Addressline2" type="VARCHAR" size="255"/>
+    <column name="PostalCode" phpName="Postalcode" type="VARCHAR" size="15"/>
+    <column name="State" phpName="State" type="VARCHAR" size="35"/>
+    <index name="odAddress_fi_b28f23">
+      <index-column name="Country"/>
+    </index>
+    <unique name="IX_UQ_odAddress_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odAssignment" idMethod="native" phpName="Odassignment">
+    <column name="CreativeId" phpName="Creativeid" type="INTEGER" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="ProviderData" phpName="Providerdata" type="LONGVARBINARY"/>
+    <column name="Status" phpName="Status" type="VARCHAR" size="16" required="true"/>
+    <column name="Weight" phpName="Weight" type="TINYINT"/>
+    <index name="odAssignment_fi_eb9803">
+      <index-column name="CreativeId"/>
+    </index>
+    <unique name="IX_UQ_odAssignment_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odContact" idMethod="native" phpName="Odcontact">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Address" phpName="Address" type="INTEGER"/>
+    <column name="Email" phpName="Email" type="VARCHAR" size="254"/>
+    <column name="Honorific" phpName="Honorific" type="VARCHAR" size="20"/>
+    <column name="Fax" phpName="Fax" type="VARCHAR" size="20"/>
+    <column name="FirstName" phpName="Firstname" type="VARCHAR" size="20" required="true"/>
+    <column name="LastName" phpName="Lastname" type="VARCHAR" size="20" required="true"/>
+    <column name="Phone" phpName="Phone" type="VARCHAR" size="20"/>
+    <column name="Title" phpName="Title" type="VARCHAR" size="30"/>
+    <index name="odContact_fi_4da017">
+      <index-column name="Address"/>
+    </index>
+    <unique name="IX_UQ_odContact_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odContactType" idMethod="native" phpName="Odcontacttype">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="128" required="true"/>
+    <unique name="IX_UQ_odContactType_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odCountry" idMethod="native" phpName="Odcountry">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="IsoCode" phpName="Isocode" type="VARCHAR" size="2" required="true"/>
+    <unique name="IX_UQ_odCountry_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odCreative" idMethod="native" phpName="Odcreative">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="AccountId" phpName="Accountid" type="INTEGER" required="true"/>
+    <column name="AdRejectionReason" phpName="Adrejectionreason" type="VARCHAR" size="256"/>
+    <column name="AdStatus" phpName="Adstatus" type="TINYINT"/>
+    <column name="AdFormatType" phpName="Adformattype" type="INTEGER" required="true"/>
+    <column name="BackupFlashAsset" phpName="Backupflashasset" type="LONGVARBINARY"/>
+    <column name="ClickUrl" phpName="Clickurl" type="VARCHAR" size="512" required="true"/>
+    <column name="CreativeAsset" phpName="Creativeasset" type="LONGVARBINARY" required="true"/>
+    <column name="HttpsCompatible" phpName="Httpscompatible" type="BOOLEAN" size="1"/>
+    <column name="Language" phpName="Language" type="INTEGER" required="true"/>
+    <column name="MaturityLevel" phpName="Maturitylevel" type="INTEGER"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="ProviderData" phpName="Providerdata" type="LONGVARBINARY"/>
+    <index name="odCreative_fi_baf3ba">
+      <index-column name="AccountId"/>
+    </index>
+    <index name="odCreative_fi_af3438">
+      <index-column name="AdFormatType"/>
+    </index>
+    <index name="odCreative_fi_ef4fc8">
+      <index-column name="Language"/>
+    </index>
+    <index name="odCreative_fi_2afebf">
+      <index-column name="MaturityLevel"/>
+    </index>
+    <unique name="IX_UQ_odCreative_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odCurrency" idMethod="native" phpName="Odcurrency">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="IsoCode" phpName="Isocode" type="VARCHAR" size="3" required="true"/>
+    <unique name="IX_UQ_odCurrency_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odDeliveryType" idMethod="native" phpName="Oddeliverytype">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="32" required="true"/>
+    <unique name="IX_UQ_odDeliveryType_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odFrequencyCapInterval" idMethod="native" phpName="Odfrequencycapinterval">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="32" required="true"/>
+    <unique name="IX_UQ_odFrequencyCapInterval_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odIndustry" idMethod="native" phpName="Odindustry">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="64" required="true"/>
+    <column name="ParentId" phpName="Parentid" type="INTEGER"/>
+    <index name="odIndustry_fi_1a5b28">
+      <index-column name="ParentId"/>
+    </index>
+    <unique name="IX_UQ_odIndustry_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odInventoryType" idMethod="native" phpName="Odinventorytype">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="32" required="true"/>
+    <unique name="IX_UQ_odInventoryType_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odLanguage" idMethod="native" phpName="Odlanguage">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="IsoCode" phpName="Isocode" type="VARCHAR" size="2" required="true"/>
+    <unique name="IX_UQ_odLanguage_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odLine" idMethod="native" phpName="Odline">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="BookingStatus" phpName="Bookingstatus" type="TINYINT" required="true" defaultValue="0"/>
+    <column name="Comment" phpName="Comment" type="VARCHAR" size="255"/>
+    <column name="Cost" phpName="Cost" type="FLOAT"/>
+    <column name="EndDate" phpName="Enddate" type="TIMESTAMP"/>
+    <column name="FrequencyCount" phpName="Frequencycount" type="TINYINT"/>
+    <column name="FrequencyInterval" phpName="Frequencyinterval" type="VARCHAR" size="5"/>
+    <column name="Quantity" phpName="Quantity" type="BIGINT"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="200" required="true"/>
+    <column name="ProviderData" phpName="Providerdata" type="LONGVARBINARY"/>
+    <column name="Rate" phpName="Rate" type="FLOAT"/>
+    <column name="RateType" phpName="Ratetype" type="INTEGER"/>
+    <column name="ReservedExpiryDate" phpName="Reservedexpirydate" type="TIMESTAMP"/>
+    <column name="StartDate" phpName="Startdate" type="TIMESTAMP"/>
+    <column name="StateChangeReason" phpName="Statechangereason" type="VARCHAR" size="256"/>
+    <column name="UsesExpandables" phpName="Usesexpandables" type="BOOLEAN" size="1" required="true" defaultValue="false"/>
+    <index name="odLine_fi_cb7ec2">
+      <index-column name="RateType"/>
+    </index>
+    <unique name="IX_UQ_odLine_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odMaturityLevel" idMethod="native" phpName="Odmaturitylevel">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Level" phpName="Level" type="VARCHAR" size="32" required="true"/>
+    <unique name="IX_UQ_odMaturityLevel_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odOrder" idMethod="native" phpName="Odorder">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="AccountId" phpName="Accountid" type="INTEGER" required="true"/>
+    <column name="Brand" phpName="Brand" type="VARCHAR" size="25"/>
+    <column name="Budget" phpName="Budget" type="FLOAT"/>
+    <index name="odOrder_fi_baf3ba">
+      <index-column name="AccountId"/>
+    </index>
+    <unique name="IX_UQ_odOrder_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odPartner" idMethod="native" phpName="Odpartner">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="255"/>
+    <unique name="IX_UQ_odPartner_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odProductAvails" idMethod="native" phpName="Odproductavails">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Availability" phpName="Availability" type="BIGINT"/>
+    <column name="Currency" phpName="Currency" type="INTEGER"/>
+    <column name="Price" phpName="Price" type="FLOAT" required="true"/>
+    <index name="odProductAvails_fi_a86fab">
+      <index-column name="Currency"/>
+    </index>
+    <unique name="IX_UQ_odProductAvails_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odRateType" idMethod="native" phpName="Odratetype">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="32" required="true"/>
+    <unique name="IX_UQ_odRateType_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odSegment" idMethod="native" phpName="Odsegment">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Target" phpName="Target" type="INTEGER" required="true"/>
+    <index name="odSegment_fi_c7402f">
+      <index-column name="Target"/>
+    </index>
+    <unique name="IX_UQ_odSegment_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odSegmentHasodTargetValue" idMethod="native" phpName="Odsegmenthasodtargetvalue">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="od_segment_id" phpName="OdSegmentId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="od_target_value_id" phpName="OdTargetValueId" type="INTEGER" primaryKey="true" required="true"/>
+    <index name="odSegmentHasodTargetValue_fi_9a8746">
+      <index-column name="od_target_value_id"/>
+    </index>
+    <index name="odSegmentHasodTargetValue_fi_cc828f">
+      <index-column name="od_segment_id"/>
+    </index>
+    <unique name="IX_UQ_odSegmentHasodTargetValue_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odSize" idMethod="native" phpName="Odsize">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Height" phpName="Height" type="INTEGER" required="true"/>
+    <column name="Width" phpName="Width" type="INTEGER" required="true"/>
+    <unique name="IX_UQ_odSize_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odTarget" idMethod="native" phpName="Odtarget">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Name" phpName="Name" type="VARCHAR" size="32" required="true"/>
+    <unique name="IX_UQ_odTarget_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="odTargetValue" idMethod="native" phpName="Odtargetvalue">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="Value" phpName="Value" type="VARCHAR" size="32" required="true"/>
+    <column name="TargetId" phpName="Targetid" type="INTEGER" required="true"/>
+    <index name="odTargetValue_fi_67fc29">
+      <index-column name="TargetId"/>
+    </index>
+    <unique name="IX_UQ_odTargetValue_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="pixel" idMethod="native" phpName="Pixel">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="64" required="true"/>
+    <column name="value" phpName="Value" type="FLOAT" required="true"/>
+    <column name="client_id" phpName="ClientId" type="INTEGER" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <column name="pixelloads" phpName="Pixelloads" type="INTEGER" required="true" defaultValue="0"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="client" name="pixel_fk_90166c">
+      <reference local="client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="pixel_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="pixel_fi_90166c">
+      <index-column name="client_id"/>
+    </index>
+    <index name="pixel_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_pixel_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rBucket" idMethod="native" phpName="Rbucket">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="bucket" name="rBucket_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <index name="rBucket_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <unique name="IX_UQ_rBucket_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rBucketCampaigns" idMethod="native" phpName="Rbucketcampaigns">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="bucket" name="rBucketCampaigns_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <index name="rBucketCampaigns_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <unique name="IX_UQ_rBucketCampaigns_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rBucketDevice" idMethod="native" phpName="Rbucketdevice">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="bucket" name="rBucketDevice_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <index name="rBucketDevice_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <unique name="IX_UQ_rBucketDevice_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rBucketGeo" idMethod="native" phpName="Rbucketgeo">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="bucket" name="rBucketGeo_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <index name="rBucketGeo_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <unique name="IX_UQ_rBucketGeo_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rCampaign" idMethod="native" phpName="Rcampaign">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="campaign" name="rCampaign_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="rCampaign_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_rCampaign_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rCampaignBuckets" idMethod="native" phpName="Rcampaignbuckets">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="campaign" name="rCampaignBuckets_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="rCampaignBuckets_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_rCampaignBuckets_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rCampaignDevice" idMethod="native" phpName="Rcampaigndevice">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER"/>
+    <foreign-key foreignTable="campaign" name="rCampaignDevice_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="rCampaignDevice_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_rCampaignDevice_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rCampaignGeo" idMethod="native" phpName="Rcampaigngeo">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="timestamp" phpName="Timestamp" type="TIMESTAMP" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="pixels" phpName="Pixels" type="INTEGER" defaultValue="0"/>
+    <column name="revenue" phpName="Revenue" type="FLOAT" defaultValue="0"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <foreign-key foreignTable="campaign" name="rCampaignGeo_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="rCampaignGeo_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <unique name="IX_UQ_rCampaignGeo_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="rViewabilityRaw" idMethod="native" phpName="Rviewabilityraw">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="sendout" phpName="Sendout" type="VARCHAR" size="255"/>
+    <column name="trackingid" phpName="Trackingid" type="VARCHAR" size="64"/>
+    <column name="count" phpName="Count" type="INTEGER"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="user" name="rViewabilityRaw_fk_29554a">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="bucket" name="rViewabilityRaw_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <index name="rViewabilityRaw_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <index name="rViewabilityRaw_fi_29554a">
+      <index-column name="user_id"/>
+    </index>
+    <unique name="IX_UQ_rViewabilityRaw_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="sendout" idMethod="native" phpName="Sendout">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="name" phpName="Name" type="VARCHAR" size="256" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" required="true"/>
+    <column name="user_id" phpName="UserId" type="INTEGER" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER" required="true"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="user" name="sendout_fk_29554a">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="bucket" name="sendout_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="sendout_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="sendout_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <index name="sendout_fi_29554a">
+      <index-column name="user_id"/>
+    </index>
+    <index name="sendout_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <unique name="IX_UQ_sendout_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="transactionlog" idMethod="native" phpName="Transactionlog">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="value" phpName="Value" type="FLOAT" required="true"/>
+    <column name="fee" phpName="Fee" type="FLOAT"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER"/>
+    <column name="bucket_id" phpName="BucketId" type="INTEGER"/>
+    <column name="campaignname" phpName="Campaignname" type="VARCHAR" size="255" required="true"/>
+    <column name="bucketname" phpName="Bucketname" type="VARCHAR" size="255" required="true"/>
+    <column name="eventlog_id" phpName="EventlogId" type="INTEGER"/>
+    <column name="date" phpName="Date" type="DATE"/>
+    <column name="seller_client_id" phpName="SellerClientId" type="INTEGER" required="true"/>
+    <column name="buyer_client_id" phpName="BuyerClientId" type="INTEGER" required="true"/>
+    <column name="requesttype" phpName="Requesttype" type="VARCHAR" size="16" required="true" defaultValue="view"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="client" name="transactionlog_fk_4a5261">
+      <reference local="buyer_client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="bucket" name="transactionlog_fk_a5cbd8">
+      <reference local="bucket_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="client" name="transactionlog_fk_a951d4">
+      <reference local="seller_client_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="eventlog" name="transactionlog_fk_d4a748">
+      <reference local="eventlog_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="transactionlog_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="transactionlog_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <index name="transactionlog_fi_a5cbd8">
+      <index-column name="bucket_id"/>
+    </index>
+    <index name="transactionlog_fi_d4a748">
+      <index-column name="eventlog_id"/>
+    </index>
+    <index name="transactionlog_fi_a951d4">
+      <index-column name="seller_client_id"/>
+    </index>
+    <index name="transactionlog_fi_4a5261">
+      <index-column name="buyer_client_id"/>
+    </index>
+    <unique name="IX_UQ_transactionlog_id">
+      <unique-column name="id"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="user" idMethod="native" phpName="User">
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="email" phpName="Email" type="VARCHAR" size="256"/>
+    <column name="cookieid" phpName="Cookieid" type="VARCHAR" size="32"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <index name="IX_UQ_user_cookieid">
+      <index-column name="cookieid"/>
+    </index>
+    <unique name="IX_UQ_user_id">
+      <unique-column name="id"/>
+    </unique>
+    <unique name="IX_UQ_user_email">
+      <unique-column name="email"/>
+    </unique>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+  <table name="userHascampaign" idMethod="native" phpName="Userhascampaign">
+    <column name="user_id" phpName="UserId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="campaign_id" phpName="CampaignId" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="views" phpName="Views" type="INTEGER" defaultValue="0"/>
+    <column name="clicks" phpName="Clicks" type="INTEGER" defaultValue="0"/>
+    <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
+    <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+    <foreign-key foreignTable="user" name="userHascampaign_fk_29554a">
+      <reference local="user_id" foreign="id"/>
+    </foreign-key>
+    <foreign-key foreignTable="campaign" name="userHascampaign_fk_fb800b">
+      <reference local="campaign_id" foreign="id"/>
+    </foreign-key>
+    <index name="userHascampaign_fi_fb800b">
+      <index-column name="campaign_id"/>
+    </index>
+    <vendor type="mysql">
+      <parameter name="Engine" value="InnoDB"/>
+    </vendor>
+  </table>
+</database>
